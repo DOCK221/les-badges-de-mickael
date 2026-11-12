@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Administration | Les Badges de Mickael — AMICAP33</title>
+    <meta name="description" content="Interface d'administration Les Badges de Mickael : gestion des fiches bénéficiaires, numéros d'urgence et consignes d'aide à apporter.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#9b59b6">
+    <meta name="author" content="AMICAP33 — Les Badges de Mickael">
+    <link rel="icon" href="mickealimage1.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#contenu-admin">Aller au contenu</a>
+
+    <div id="loginScreen" class="login-screen" role="main" aria-labelledby="admin-login-title">
+        <section class="login-card">
+            <h1 id="admin-login-title">Connexion administrateur</h1>
+            <p>Accédez à la gestion des fiches Les Badges de Mickael (AMICAP33).</p>
+
+            <form id="loginForm">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="adminPassword">Mot de passe</label>
+                    <input type="password" id="adminPassword" name="password" placeholder="Entrez votre mot de passe" required autocomplete="current-password">
+                </div>
+                <div class="login-actions">
+                    <button type="submit">Se connecter</button>
+                    <button type="button" class="btn-secondary" id="forgotPasswordBtn">Mot de passe oublié</button>
+                </div>
+            </form>
+
+            <div id="forgotBox" class="forgot-box" hidden>
+                <p><strong>Récupération du mot de passe</strong></p>
+                <p>Question secrète : <strong>Quel est le nom du projet ?</strong></p>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="secretAnswer">Votre réponse</label>
+                    <input type="text" id="secretAnswer" placeholder="Exemple : Les Badges de Mickael">
+                </div>
+                <button type="button" id="recoverPasswordBtn">Retrouver le mot de passe</button>
+                <p id="recoverResult" style="margin-top:1rem; color: var(--violet); font-weight: bold;" role="status"></p>
+            </div>
+        </section>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">
+                    <div class="logo-uploader" id="logoUploader" title="Importer un logo" role="button" tabindex="0" aria-label="Importer le logo">
+                        <img src="mickealimage1.png" width="72" height="72" alt="Logo Les Badges de Mickael">
+                        <input type="file" id="logoFileInput" accept="image/*,.pdf" hidden>
+                    </div>
+                    <div class="brand-text">
+                        <strong>Les Badges de Mickael</strong>
+                        <span>Administration AMICAP33</span>
+                    </div>
+                </div>
+                <nav class="main-nav" aria-label="Navigation administration">
+                    <button type="button" class="btn-secours" id="secoursBtn" aria-haspopup="dialog" aria-controls="secoursModal">SECOURS</button>
+                    <button type="button" class="tab-btn is-active" data-tab="info" aria-controls="infoTab">Information</button>
+                    <button type="button" class="tab-btn" data-tab="geste" aria-controls="gesteTab">Aide à apporter</button>
+                    <button type="button" class="btn-secondary" id="logoutBtn">Déconnexion</button>
+                </nav>
+            </div>
+        </header>
+
+        <div id="secoursModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="secoursModalTitle" hidden>
+            <div class="modal-backdrop" data-close-modal></div>
+            <div class="modal-panel">
+                <header class="modal-header">
+                    <h2 id="secoursModalTitle">Appels d'urgence</h2>
+                    <button type="button" class="modal-close" id="secoursModalClose" aria-label="Fermer">&times;</button>
+                </header>
+                <div class="modal-body">
+                    <p class="modal-intro">Choisissez un numéro enregistré à appeler, ou un numéro d'urgence national.</p>
+                    <div id="secoursContactsList"></div>
+                    <aside class="urgence-box" style="margin-top: 1.25rem;">
+                        <strong>Urgences nationales</strong>
+                        <ul class="secours-call-list">
+                            <li><a class="secours-call-btn" href="tel:15">SAMU — 15</a></li>
+                            <li><a class="secours-call-btn" href="tel:18">Pompiers — 18</a></li>
+                            <li><a class="secours-call-btn" href="tel:112">Urgences européennes — 112</a></li>
+                            <li><a class="secours-call-btn" href="tel:17">Police — 17</a></li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+        </div>
+
+        <main id="contenu-admin" class="container">
+            <section id="infoTab" class="tab-panel is-active" aria-labelledby="info-title">
+                <article class="card">
+                    <h1 id="info-title" style="font-size:1.35rem;color:var(--violet);margin:0 0 1rem;">Informations personnelles</h1>
+                    <p class="info-badge">Base locale navigateur — Export / Import JSON pour sauvegarder ou partager</p>
+
+                    <form id="personForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="identifiant">Identifiant (5 chiffres)</label>
+                                <input type="text" id="identifiant" name="identifiant" required placeholder="12345" maxlength="5" pattern="\d{5}" inputmode="numeric">
+                            </div>
+                            <div class="form-group">
+                                <label for="nom">Nom</label>
+                                <input type="text" id="nom" name="nom" required placeholder="Dupont" autocomplete="family-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="prenom">Prénom</label>
+                                <input type="text" id="prenom" name="prenom" required placeholder="Jean" autocomplete="given-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="domiciliation">Domiciliation</label>
+                                <input type="text" id="domiciliation" name="domiciliation" placeholder="Ville, adresse ou secteur">
+                            </div>
+                            <div class="form-group">
+                                <label for="dateInscription">Date d'inscription</label>
+                                <input type="date" id="dateInscription" name="dateInscription" required>
+                            </div>
+
+                            <fieldset class="numeros-field">
+                                <legend style="font-weight:700;color:var(--gris);padding:0 0.25rem;">Numéros de téléphone</legend>
+                                <div id="numerosUrgenceList"></div>
+                                <button type="button" id="addNumeroBtn" class="btn-add-numero" aria-label="Ajouter un numéro de téléphone">
+                                    <span class="plus" aria-hidden="true">+</span>
+                                    Ajouter un numéro
+                                </button>
+                                <span class="form-hint">Jusqu'à 7 numéros d'urgence (proche, famille, aidant…).</span>
+                                <p id="erreur-message" class="form-error" role="alert">Chaque numéro doit contenir 10 chiffres.</p>
+                            </fieldset>
+
+                            <div class="form-group form-group--full">
+                                <label for="maladie">Description de la maladie / pathologie</label>
+                                <textarea id="maladie" name="maladie" rows="4" placeholder="Décrivez la maladie, le handicap ou les points importants à connaître en cas d'urgence..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit">Ajouter / Modifier</button>
+                            <button type="button" id="resetFormBtn" class="btn-secondary">Nouvelle fiche</button>
+                        </div>
+                    </form>
+                </article>
+
+                <article class="card">
+                    <h2>Liste des personnes enregistrées</h2>
+                    <div class="table-wrap">
+                        <table id="personTable">
+                            <caption class="hidden">Liste des bénéficiaires enregistrés</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prénom</th>
+                                    <th scope="col">Domiciliation</th>
+                                    <th scope="col">Numéros d'urgence</th>
+                                    <th scope="col">Date d'inscription</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr>
+                                    <td colspan="7" style="text-align:center;">Aucune personne enregistrée</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="export-actions">
+                        <button type="button" id="exportBtn" class="btn-secondary">Exporter CSV</button>
+                        <button type="button" id="exportJsonBtn" class="btn-secondary">Exporter JSON</button>
+                        <button type="button" id="importJsonBtn" class="btn-secondary">Importer JSON</button>
+                        <input type="file" id="importJsonInput" accept=".json,application/json" hidden>
+                    </div>
+                </article>
+            </section>
+
+            <section id="gesteTab" class="tab-panel" aria-labelledby="geste-title">
+                <article class="card">
+                    <h2 id="geste-title">Aide à apporter &amp; premiers secours</h2>
+                    <p style="margin:0 0 1rem;color:var(--gris);">Sélectionnez une personne pour consulter et modifier ses consignes.</p>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="selectPersonGeste">Choisir une personne</label>
+                        <select id="selectPersonGeste">
+                            <option value="">-- Sélectionnez une personne --</option>
+                        </select>
+                    </div>
+
+                    <div id="gesteDetails">
+                        <div class="geste-card">
+                            <h3>Informations</h3>
+                            <p>Veuillez sélectionner une personne pour afficher les détails.</p>
+                        </div>
+                    </div>
+
+                    <aside class="urgence-box" aria-label="Numéros d'urgence nationaux">
+                        <strong>Numéros d'urgence nationaux :</strong><br>
+                        Pompiers : 18 ou 112 · SAMU : 15 · Police : 17
+                    </aside>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p><strong>Les Badges de Mickael</strong> — administration AMICAP33</p>
+        </footer>
+    </div>
+
+    <script src="assets/js/admin.js" defer></script>
+</body>
+</html>

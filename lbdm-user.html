@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Espace personnel | Les Badges de Mickael — AMICAP33</title>
+    <meta name="description" content="Accédez à votre espace Les Badges de Mickael : informations de secours, numéros d'urgence et aide à apporter pour les personnes en situation de handicap. Projet AMICAP33.">
+    <meta name="keywords" content="Les Badges de Mickael, AMICAP33, handicap, urgences, secours, premiers secours, accessibilité, Gironde">
+    <meta name="author" content="AMICAP33 — Les Badges de Mickael">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#9b59b6">
+    <link rel="canonical" href="lbdm-user.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="Espace personnel | Les Badges de Mickael">
+    <meta property="og:description" content="Informations de secours personnalisées pour faciliter l'intervention auprès des personnes en situation de handicap.">
+    <meta property="og:image" content="mickealimage1.png">
+    <meta property="og:site_name" content="Les Badges de Mickael">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Les Badges de Mickael — Espace personnel">
+    <meta name="twitter:description" content="Accès sécurisé aux informations de secours personnalisées.">
+
+    <link rel="icon" href="mickealimage1.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Les Badges de Mickael",
+        "alternateName": "AMICAP33",
+        "description": "Dispositif pour améliorer les conditions de vie des personnes en situation de handicap et faciliter l'accès aux secours.",
+        "url": "lbdm-user.html",
+        "logo": "mickealimage1.png",
+        "areaServed": {
+            "@type": "AdministrativeArea",
+            "name": "Gironde"
+        },
+        "knowsAbout": ["handicap", "premiers secours", "urgences", "accessibilité"]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#contenu-principal">Aller au contenu</a>
+
+    <div id="loginScreen" class="login-screen" role="main" aria-labelledby="login-title">
+        <section class="login-card">
+            <h1 id="login-title">Espace personnel</h1>
+            <p>Connectez-vous avec votre identifiant pour consulter vos informations de secours Les Badges de Mickael (AMICAP33).</p>
+
+            <form id="loginForm" novalidate>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="userId">Identifiant (5 chiffres)</label>
+                    <input type="text" id="userId" name="identifiant" placeholder="12345" maxlength="5" required pattern="\d{5}" inputmode="numeric" autocomplete="username">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="userName">Votre nom</label>
+                    <input type="text" id="userName" name="nom" placeholder="Votre nom de famille" required autocomplete="family-name">
+                </div>
+                <button type="submit">Se connecter</button>
+            </form>
+            <p id="loginError" class="form-error" role="alert" style="display: none; margin-top: 1rem;"></p>
+        </section>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="lbdm-user.html" title="Les Badges de Mickael — accueil">
+                    <img src="mickealimage1.png" width="72" height="72" alt="Logo Les Badges de Mickael">
+                    <div class="brand-text">
+                        <strong>Les Badges de Mickael</strong>
+                        <span>Faciliter l'accès aux secours</span>
+                    </div>
+                </a>
+                <nav class="main-nav" aria-label="Navigation principale">
+                    <button type="button" class="btn-secours" id="secourTabBtn" aria-label="Appeler les secours">SECOURS</button>
+                    <button type="button" class="tab-btn is-active" data-tab="infos" aria-controls="infosTab">Mes infos</button>
+                    <button type="button" class="tab-btn" data-tab="avis" aria-controls="avisTab">Votre avis</button>
+                </nav>
+            </div>
+        </header>
+
+        <main id="contenu-principal" class="container container--narrow">
+            <section id="infosTab" class="tab-panel is-active" aria-labelledby="infos-title">
+                <article class="card">
+                    <h1 id="infos-title" style="font-size:1.35rem;color:var(--violet);margin:0 0 1.25rem;">Mes informations</h1>
+                    <div id="userInfo" class="info-list"></div>
+                    <div id="gestesSecours"></div>
+                </article>
+                <button type="button" id="logoutBtn" class="btn-secondary">Se déconnecter</button>
+            </section>
+
+            <section id="avisTab" class="tab-panel" aria-labelledby="avis-title">
+                <article class="card">
+                    <h2 id="avis-title">Écrivez-nous</h2>
+                    <div class="avis-box">
+                        <form id="avisForm">
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label for="avisNom">Votre nom (optionnel)</label>
+                                <input type="text" id="avisNom" name="avisNom" placeholder="Votre nom" autocomplete="name">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label for="avisMessage">Votre avis</label>
+                                <textarea id="avisMessage" name="avisMessage" rows="5" required placeholder="Partagez votre expérience, suggestions ou témoignage..."></textarea>
+                            </div>
+                            <button type="submit">Envoyer mon avis</button>
+                        </form>
+                        <p class="form-hint">L'avis s'ouvre dans votre messagerie pour un envoi par e-mail.</p>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p><strong>Les Badges de Mickael</strong> — projet AMICAP33 pour améliorer les conditions de vie des personnes en situation de handicap.</p>
+            <p>Urgences nationales : Pompiers 18 / 112 · SAMU 15 · Police 17</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+    <script src="assets/js/config.js" defer></script>
+    <script src="assets/js/store.js" defer></script>
+    <script src="assets/js/user.js" defer></script>
+</body>
+</html>
