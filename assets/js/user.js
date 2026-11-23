@@ -126,7 +126,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 });
 
 document.getElementById('secourTabBtn').addEventListener('click', function () {
-    window.location.href = 'tel:15';
+    window.location.href = 'tel:112';
 });
 
 document.getElementById('sosProcheBtn').addEventListener('click', function () {
