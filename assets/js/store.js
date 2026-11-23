@@ -5,7 +5,8 @@
     const LOCAL_SESSION_KEY = 'badges_mickael_admin';
     const LOCAL_PASSWORD = 'admin123';
 
-    const demoMode = Boolean(cfg.DEMO_MODE);
+    // DEMO_MODE = true => ignore Supabase et la table adherents
+    const demoMode = cfg.DEMO_MODE === true;
     const remote = !demoMode && Boolean(cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && window.supabase);
     const client = remote ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
 
@@ -54,16 +55,24 @@
     }
 
     function writeLocal(list) {
-        localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+        try {
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+        } catch (e) {
+            // Navigateur restreint / mode prive : on continue en memoire
+        }
     }
 
     function ensureLocalSeed() {
-        let list = readLocal();
-        if (!list || !list.length) {
-            list = demoData();
-            writeLocal(list);
+        try {
+            let list = readLocal();
+            if (!list || !list.length) {
+                list = demoData();
+                writeLocal(list);
+            }
+            return (list && list.length) ? list : demoData();
+        } catch (e) {
+            return demoData();
         }
-        return list;
     }
 
     function check(res) {
@@ -163,10 +172,12 @@
         },
 
         async findForUser(identifiant, nom) {
-            if (!remote) {
+            if (!remote || demoMode) {
                 const target = nom.trim().toLowerCase();
-                return ensureLocalSeed().find(p =>
-                    p.identifiant === identifiant && String(p.nom).trim().toLowerCase() === target
+                const list = ensureLocalSeed();
+                return list.find(p =>
+                    String(p.identifiant) === String(identifiant) &&
+                    String(p.nom).trim().toLowerCase() === target
                 ) || null;
             }
             const data = check(await client.rpc('get_fiche', { p_identifiant: identifiant, p_nom: nom }));
