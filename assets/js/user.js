@@ -105,7 +105,10 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     try {
         personne = await Store.findForUser(id, nom);
     } catch (err) {
-        errorP.textContent = 'Connexion au serveur impossible. Réessayez dans un instant.';
+        const detail = (err && err.message) ? String(err.message) : '';
+        errorP.textContent = detail.includes('get_fiche') || detail.includes('schema cache') || detail.includes('Could not find')
+            ? "La base n'est pas encore prête (table adherents / get_fiche manquants). Exécutez le fichier CREER-ADHERENTS.sql dans Supabase."
+            : 'Connexion au serveur impossible. Réessayez dans un instant.';
         errorP.style.display = 'block';
         return;
     } finally {
