@@ -1,8 +1,7 @@
 // Paramètres du site.
 window.LBDM_CONFIG = {
-    // true = version TEST : fiches deja remplies, sans Supabase
-    // false = mode cloud Supabase (quand la base sera prete)
-    DEMO_MODE: true,
+    // true = version TEST locale ; false = cloud Supabase
+    DEMO_MODE: false,
 
     // Supabase (ignore tant que DEMO_MODE = true)
     SUPABASE_URL: 'https://vgzylcuoplnyvlfhadnq.supabase.co',
