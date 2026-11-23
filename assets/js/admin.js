@@ -3,30 +3,7 @@ const SECRET_ANSWER = 'les badges de mickael';
 const LOCAL_PASSWORD_HINT = 'admin123';
 const Store = window.LBDMStore;
 
-const DEMO_PERSONNES = [
-    {
-        identifiant: '12345',
-        nom: 'Martin',
-        prenom: 'Sophie',
-        domiciliation: 'Nantes',
-        numerosUrgence: ['0612345678', '0698765432'],
-        dateInscription: '2026-04-22',
-        maladie: 'Épilepsie — crises possibles, ne rien mettre dans la bouche.',
-        aideApporter: "Rassurer la personne, l'allonger sur le côté si nécessaire, appeler le 15 en cas de crise.",
-        gestesSecours: "Surveiller la respiration, sécuriser l'environnement, ne rien mettre dans la bouche."
-    },
-    {
-        identifiant: '67890',
-        nom: 'Bernard',
-        prenom: 'Lucas',
-        domiciliation: 'Rezé',
-        numerosUrgence: ['0789456123'],
-        dateInscription: '2026-04-22',
-        maladie: "Diabète — risque d'hypoglycémie.",
-        aideApporter: 'Donner du sucre si la personne est consciente, rester avec elle.',
-        gestesSecours: 'Contacter les secours si malaise important, surveiller son état.'
-    }
-];
+const DEMO_PERSONNES = window.LBDM_DEMO_PERSONNES || [];
 
 let personnes = [];
 let editingId = null;
@@ -474,7 +451,10 @@ function setupLogin() {
     const forgotBox = document.getElementById('forgotBox');
     const recoverResult = document.getElementById('recoverResult');
 
-    if (Store.isRemote) {
+    if (Store.isDemo) {
+        document.getElementById('storageBadge').textContent =
+            'MODE TEST — fiches déjà remplies (Boubacar, Lucas, Sophie). Mot de passe admin : admin123';
+    } else if (Store.isRemote) {
         document.getElementById('adminEmailGroup').classList.remove('hidden');
         document.getElementById('adminEmail').required = true;
         document.getElementById('forgotLocal').classList.add('hidden');

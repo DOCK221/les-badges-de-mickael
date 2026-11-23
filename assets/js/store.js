@@ -1,12 +1,17 @@
-// Accès aux fiches : Supabase si configuré, sinon localStorage.
+// Accès aux fiches : mode DEMO, sinon Supabase, sinon localStorage.
 (function () {
     const cfg = window.LBDM_CONFIG || {};
-    const LOCAL_KEY = 'badges_mickael_personnes';
+    const LOCAL_KEY = 'badges_mickael_personnes_v2';
     const LOCAL_SESSION_KEY = 'badges_mickael_admin';
     const LOCAL_PASSWORD = 'admin123';
 
-    const remote = Boolean(cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && window.supabase);
+    const demoMode = Boolean(cfg.DEMO_MODE);
+    const remote = !demoMode && Boolean(cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && window.supabase);
     const client = remote ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
+
+    function demoData() {
+        return (window.LBDM_DEMO_PERSONNES || []).map(function (p) { return Object.assign({}, p); });
+    }
 
     function toRow(p) {
         return {
@@ -52,6 +57,15 @@
         localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
     }
 
+    function ensureLocalSeed() {
+        let list = readLocal();
+        if (!list || !list.length) {
+            list = demoData();
+            writeLocal(list);
+        }
+        return list;
+    }
+
     function check(res) {
         if (res.error) {
             const msg = /row-level security/i.test(res.error.message)
@@ -68,6 +82,7 @@
 
     window.LBDMStore = {
         isRemote: remote,
+        isDemo: demoMode,
 
         async hasSession() {
             if (!remote) return sessionStorage.getItem(LOCAL_SESSION_KEY) === '1';
@@ -108,17 +123,15 @@
             check(await client.auth.updateUser({ password }));
         },
 
-        // Retourne null en mode local si aucune donnée n'a jamais été enregistrée.
         async list() {
-            if (!remote) return readLocal();
-            // Table metier dans Supabase : public.adherents
+            if (!remote) return ensureLocalSeed();
             const data = check(await client.from('adherents').select('*').order('identifiant'));
             return data.map(fromRow);
         },
 
         async save(person, originalId) {
             if (!remote) {
-                const list = readLocal() || [];
+                const list = ensureLocalSeed();
                 const index = list.findIndex(p => p.identifiant === (originalId || person.identifiant));
                 if (index === -1) list.push(person);
                 else list[index] = person;
@@ -134,7 +147,7 @@
 
         async remove(identifiant) {
             if (!remote) {
-                writeLocal((readLocal() || []).filter(p => p.identifiant !== identifiant));
+                writeLocal(ensureLocalSeed().filter(p => p.identifiant !== identifiant));
                 return;
             }
             check(await client.from('adherents').delete().eq('identifiant', identifiant));
@@ -152,7 +165,7 @@
         async findForUser(identifiant, nom) {
             if (!remote) {
                 const target = nom.trim().toLowerCase();
-                return (readLocal() || []).find(p =>
+                return ensureLocalSeed().find(p =>
                     p.identifiant === identifiant && String(p.nom).trim().toLowerCase() === target
                 ) || null;
             }
