@@ -111,8 +111,8 @@
         // Retourne null en mode local si aucune donnée n'a jamais été enregistrée.
         async list() {
             if (!remote) return readLocal();
-            // Table metier dans Supabase : public."user"
-            const data = check(await client.from('user').select('*').order('identifiant'));
+            // Table metier dans Supabase : public.adherents
+            const data = check(await client.from('adherents').select('*').order('identifiant'));
             return data.map(fromRow);
         },
 
@@ -126,9 +126,9 @@
                 return;
             }
             if (originalId && originalId !== person.identifiant) {
-                check(await client.from('user').update(toRow(person)).eq('identifiant', originalId));
+                check(await client.from('adherents').update(toRow(person)).eq('identifiant', originalId));
             } else {
-                check(await client.from('user').upsert(toRow(person)));
+                check(await client.from('adherents').upsert(toRow(person)));
             }
         },
 
@@ -137,7 +137,7 @@
                 writeLocal((readLocal() || []).filter(p => p.identifiant !== identifiant));
                 return;
             }
-            check(await client.from('user').delete().eq('identifiant', identifiant));
+            check(await client.from('adherents').delete().eq('identifiant', identifiant));
         },
 
         async replaceAll(list) {
@@ -145,8 +145,8 @@
                 writeLocal(list);
                 return;
             }
-            check(await client.from('user').delete().neq('identifiant', ''));
-            if (list.length) check(await client.from('user').insert(list.map(toRow)));
+            check(await client.from('adherents').delete().neq('identifiant', ''));
+            if (list.length) check(await client.from('adherents').insert(list.map(toRow)));
         },
 
         async findForUser(identifiant, nom) {
