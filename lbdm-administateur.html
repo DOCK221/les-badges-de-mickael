@@ -76,7 +76,10 @@
                     </div>
                 </div>
                 <nav class="main-nav" aria-label="Navigation administration">
-                    <button type="button" class="btn-secours" id="secoursBtn" aria-haspopup="dialog" aria-controls="secoursModal">SECOURS</button>
+                    <div class="urgence-actions" role="group" aria-label="Appels d'urgence">
+                        <a class="btn-secours" id="secoursBtn" href="tel:15" aria-label="Appeler le 15 (SAMU)">15</a>
+                        <button type="button" class="btn-sos-proche" id="sosProcheBtn" aria-haspopup="dialog" aria-controls="secoursModal">SOS PROCHE</button>
+                    </div>
                     <button type="button" class="tab-btn is-active" data-tab="info" aria-controls="infoTab">Information</button>
                     <button type="button" class="tab-btn" data-tab="geste" aria-controls="gesteTab">Aide à apporter</button>
                     <button type="button" class="btn-secondary" id="logoutBtn">Déconnexion</button>
@@ -88,11 +91,11 @@
             <div class="modal-backdrop" data-close-modal></div>
             <div class="modal-panel">
                 <header class="modal-header">
-                    <h2 id="secoursModalTitle">Appels d'urgence</h2>
+                    <h2 id="secoursModalTitle">SOS proche</h2>
                     <button type="button" class="modal-close" id="secoursModalClose" aria-label="Fermer">&times;</button>
                 </header>
                 <div class="modal-body">
-                    <p class="modal-intro">Choisissez un numéro enregistré à appeler, ou un numéro d'urgence national.</p>
+                    <p class="modal-intro">Choisissez un proche à appeler, ou un numéro d'urgence national.</p>
                     <div id="secoursContactsList"></div>
                     <aside class="urgence-box" style="margin-top: 1.25rem;">
                         <strong>Urgences nationales</strong>

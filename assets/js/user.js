@@ -126,8 +126,16 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 });
 
 document.getElementById('secourTabBtn').addEventListener('click', function () {
+    window.location.href = 'tel:15';
+});
+
+document.getElementById('sosProcheBtn').addEventListener('click', function () {
     const numeros = currentPerson ? getNumerosUrgence(currentPerson) : [];
-    window.location.href = 'tel:' + (numeros[0] || '15');
+    if (!numeros.length) {
+        showToast('Aucun numéro de proche enregistré.');
+        return;
+    }
+    window.location.href = 'tel:' + numeros[0];
 });
 
 document.getElementById('logoutBtn').addEventListener('click', function () {

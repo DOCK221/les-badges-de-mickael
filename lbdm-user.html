@@ -77,7 +77,10 @@
                     </div>
                 </a>
                 <nav class="main-nav" aria-label="Navigation principale">
-                    <button type="button" class="btn-secours" id="secourTabBtn" aria-label="Appeler les secours">SECOURS</button>
+                    <div class="urgence-actions" role="group" aria-label="Appels d'urgence">
+                        <button type="button" class="btn-secours" id="secourTabBtn" aria-label="Appeler le 15 (SAMU)">15</button>
+                        <button type="button" class="btn-sos-proche" id="sosProcheBtn" aria-label="Appeler un proche d'urgence">SOS PROCHE</button>
+                    </div>
                     <button type="button" class="tab-btn is-active" data-tab="infos" aria-controls="infosTab">Mes infos</button>
                     <button type="button" class="tab-btn" data-tab="avis" aria-controls="avisTab">Votre avis</button>
                 </nav>
