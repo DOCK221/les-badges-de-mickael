@@ -566,7 +566,7 @@ function setupEvents() {
 
 function setupSecoursModal() {
     const modal = document.getElementById('secoursModal');
-    const openBtn = document.getElementById('secoursBtn');
+    const openBtn = document.getElementById('sosProcheBtn');
     const closeBtn = document.getElementById('secoursModalClose');
 
     function openModal() {
@@ -579,10 +579,10 @@ function setupSecoursModal() {
     function closeModal() {
         modal.classList.add('hidden');
         modal.setAttribute('hidden', '');
-        openBtn.focus();
+        if (openBtn) openBtn.focus();
     }
 
-    openBtn.addEventListener('click', openModal);
+    if (openBtn) openBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
     modal.querySelectorAll('[data-close-modal]').forEach(el => {
         el.addEventListener('click', closeModal);

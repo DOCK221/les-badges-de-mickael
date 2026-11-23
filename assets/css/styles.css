@@ -467,16 +467,47 @@ button:hover,
     background: #c0392b;
 }
 
+.urgence-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.btn-secours,
+.btn-sos-proche {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.85rem 1.35rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    color: var(--blanc);
+    transition: background 0.2s, transform 0.2s;
+}
+
 .btn-secours {
     background: #e74c3c;
-    font-size: 1.15rem;
-    padding: 0.85rem 1.6rem;
-    border-radius: 50px;
     box-shadow: 0 4px 10px rgba(231, 76, 60, 0.35);
+    min-width: 3.5rem;
 }
 
 .btn-secours:hover {
     background: #c0392b;
+    transform: scale(1.02);
+}
+
+.btn-sos-proche {
+    background: #f39c12;
+    box-shadow: 0 4px 10px rgba(243, 156, 18, 0.35);
+}
+
+.btn-sos-proche:hover {
+    background: #d68910;
+    transform: scale(1.02);
 }
 
 /* —— Modal SECOURS —— */
